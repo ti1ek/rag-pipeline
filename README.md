@@ -11,31 +11,12 @@ A production-ready Retrieval-Augmented Generation pipeline for answering questio
 ## Pipeline Overview
 
 ```
-PDF
- └─► LlamaParse (markdown with table preservation)
-      └─► Chunking (Fixed / Recursive / Layout-Aware)
-           └─► multilingual-e5-large embeddings
-                └─► Qdrant (cosine similarity, in-memory)
-                     └─► Retrieval (Dense / BM25 / Hybrid RRF)
-                          └─► Cross-Encoder Reranking (optional)
-                               └─► Query Rewriting (optional)
-                                    └─► GPT-4o-mini → Answer
+PDF → LlamaParse (markdown) → Chunking → Embeddings → Qdrant → Retrieval → GPT-4o-mini → Answer
 ```
 
----
+**Naive RAG**: Fixed chunking → Dense retrieval → LLM generation
 
-## Two Modes
-
-### Naive RAG
-- Fixed-size chunking (1024 tokens, 200 overlap)
-- Dense retrieval via cosine similarity
-- Direct LLM answer generation
-
-### Advanced RAG
-- Layout-aware chunking (tables preserved intact, markdown headers as boundaries)
-- Hybrid Search: Vector + BM25 fused via **Reciprocal Rank Fusion (RRF)**
-- Cross-encoder reranking with **BAAI/bge-reranker-v2-m3**
-- Query Rewriting pre-retrieval technique (LLM rephrases the query in Russian for better recall)
+**Advanced RAG**: Layout-aware chunking → Hybrid search (Vector + BM25 via RRF) → Cross-encoder reranking → Query rewriting → LLM generation
 
 ---
 
@@ -101,7 +82,7 @@ Evaluation is run against a **golden dataset of 30 QA pairs** covering both docu
 
 ---
 
-## Experiments (Task 2)
+## Experiments
 
 6+ experiments following greedy search (one hyperparameter changed at a time, best carried forward):
 
@@ -155,7 +136,7 @@ rag/
 └── notebooks/
     ├── task1a_naive_rag.ipynb      # Naive RAG: parse → chunk → index → query
     ├── task1b_advanced_rag.ipynb   # Advanced RAG: hybrid search, reranking, query rewriting
-    ├── task2a_experiments.ipynb    # 6+ hyperparameter experiments with RAGAS scores
+    ├── task2a_experiments.ipynb    # Hyperparameter experiments with RAGAS scores
     └── task2b_ragas_analysis.ipynb # Analysis: metric tables, per-experiment conclusions
 ```
 
@@ -172,4 +153,4 @@ cp .env.example .env
 # HF_TOKEN=...
 ```
 
-Run notebooks in order: `task1a` → `task1b` → `task2a` → `task2b`
+Run notebooks in order: `naive_rag` → `advanced_rag` → `experiments` → `ragas_analysis`
