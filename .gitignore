@@ -1,0 +1,12 @@
+.env
+CLAUDE.md
+__pycache__/
+*.pyc
+.qdrant_storage/
+data/parsed/
+*.pkl
+.claude/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/

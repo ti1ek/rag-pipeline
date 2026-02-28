@@ -1,0 +1,15 @@
+python-dotenv
+langchain
+langchain-community
+langchain-openai
+langchain-qdrant
+qdrant-client
+llama-parse
+llama-index-core
+sentence-transformers
+FlagEmbedding
+tiktoken
+rank-bm25
+ragas
+pandas
+tqdm
