@@ -13,3 +13,5 @@ rank-bm25
 ragas
 pandas
 tqdm
+matplotlib
+ipywidgets

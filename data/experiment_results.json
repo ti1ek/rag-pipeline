@@ -1,0 +1,93 @@
+[
+  {
+    "experiment": "Baseline",
+    "faithfulness": 0.951388888888889,
+    "answer_relevancy": 0.8353604343648233,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.7824074073590492
+  },
+  {
+    "experiment": "Chunk size 512",
+    "faithfulness": 0.8666666666666666,
+    "answer_relevancy": 0.7644822075022422,
+    "context_recall": 0.7666666666666667,
+    "context_precision": 0.6859259258796868
+  },
+  {
+    "experiment": "Chunk size 2048",
+    "faithfulness": 0.9217460317460319,
+    "answer_relevancy": 0.9311881173479769,
+    "context_recall": 0.9666666666666667,
+    "context_precision": 0.7385185184790283
+  },
+  {
+    "experiment": "Overlap 100",
+    "faithfulness": 0.9521825396825397,
+    "answer_relevancy": 0.8137374182166511,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.6370370369886547
+  },
+  {
+    "experiment": "Overlap 400",
+    "faithfulness": 0.8535714285714285,
+    "answer_relevancy": 0.816425546582065,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.735046296253694
+  },
+  {
+    "experiment": "Strategy recursive",
+    "faithfulness": 0.951388888888889,
+    "answer_relevancy": 0.8381458689334866,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.7798148147697838
+  },
+  {
+    "experiment": "Strategy layout_aware",
+    "faithfulness": 0.885978835978836,
+    "answer_relevancy": 0.6365617731456682,
+    "context_recall": 0.5666666666666667,
+    "context_precision": 0.3377777777489167
+  },
+  {
+    "experiment": "Top-K 3",
+    "faithfulness": 0.9230158730158731,
+    "answer_relevancy": 0.8742543238684296,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.8333333332744443
+  },
+  {
+    "experiment": "Top-K 10",
+    "faithfulness": 0.8522222222222222,
+    "answer_relevancy": 0.8992298212110978,
+    "context_recall": 0.9333333333333333,
+    "context_precision": 0.7355544532262096
+  },
+  {
+    "experiment": "Alpha 0.3",
+    "faithfulness": 0.9452380952380952,
+    "answer_relevancy": 0.7439932564758979,
+    "context_recall": 0.7666666666666667,
+    "context_precision": 0.7142129629198699
+  },
+  {
+    "experiment": "Alpha 0.7",
+    "faithfulness": 0.9428571428571428,
+    "answer_relevancy": 0.8330306139209823,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.7638888888413194
+  },
+  {
+    "experiment": "Alpha 1.0",
+    "faithfulness": 0.8599999999999999,
+    "answer_relevancy": 0.8996524988734642,
+    "context_recall": 0.9333333333333333,
+    "context_precision": 0.8201388888310476
+  },
+  {
+    "experiment": "With Reranking",
+    "faithfulness": 0.9599999999999999,
+    "answer_relevancy": 0.8740755013883373,
+    "context_recall": 0.8666666666666667,
+    "context_precision": 0.8094444443932824
+  }
+]

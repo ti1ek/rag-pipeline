@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI
-from langchain.schema import Document, HumanMessage, SystemMessage
+from langchain_core.documents import Document
+from langchain_core.messages import HumanMessage, SystemMessage
 from src.config import OPENAI_API_KEY
 
 SYSTEM_PROMPT = """Ты — эксперт-аналитик, отвечающий на вопросы по годовым отчётам казахстанских компаний.

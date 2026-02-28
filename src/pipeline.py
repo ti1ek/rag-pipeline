@@ -1,9 +1,9 @@
-from langchain.schema import Document
+from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
 from src.config import DEFAULT_CONFIG, OPENAI_API_KEY
 from src.chunking import chunk_text
 from src.embeddings import get_embedding_model
-from src.vectorstore import create_collection, load_collection
+from src.vectorstore import create_collection
 from src.retrieval import dense_retrieve, BM25Retriever, hybrid_retrieve, rerank
 from src.generation import generate_answer
 
@@ -17,6 +17,7 @@ class RAGPipeline:
         self.vector_store = None
         self.bm25_retriever = None
         self.documents = None
+        self.qdrant_client = None
 
     def ingest(self, parsed_texts: dict[str, str]):
         """Chunk and index parsed texts into vector store."""
@@ -31,17 +32,11 @@ class RAGPipeline:
             all_docs.extend(docs)
 
         self.documents = all_docs
-        self.vector_store = create_collection(
+        self.vector_store, self.qdrant_client = create_collection(
             all_docs, self.embedding_model, self.config["collection_name"]
         )
         self.bm25_retriever = BM25Retriever(all_docs)
         return len(all_docs)
-
-    def load(self):
-        """Load existing vector store (skip re-ingestion)."""
-        self.vector_store = load_collection(
-            self.embedding_model, self.config["collection_name"]
-        )
 
     def _rewrite_query(self, question: str) -> str:
         """Rewrite query using LLM for better retrieval."""

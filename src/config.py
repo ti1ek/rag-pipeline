@@ -5,6 +5,7 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 LLAMA_CLOUD_API_KEY = os.getenv("LLAMA_CLOUD_API_KEY")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 # Paths
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
