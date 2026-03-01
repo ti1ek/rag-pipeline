@@ -56,15 +56,18 @@ class RAGPipeline:
         alpha = self.config["alpha"]
         top_k = self.config["top_k"]
 
+        # When reranking, fetch a larger candidate pool first
+        retrieve_k = top_k * 4 if self.config["use_reranking"] else top_k
+
         # Pure dense
         if alpha == 1.0 or self.bm25_retriever is None:
-            docs = dense_retrieve(self.vector_store, q, top_k=top_k)
+            docs = dense_retrieve(self.vector_store, q, top_k=retrieve_k)
         # Pure BM25
         elif alpha == 0.0:
-            docs = self.bm25_retriever.retrieve(q, top_k=top_k)
+            docs = self.bm25_retriever.retrieve(q, top_k=retrieve_k)
         # Hybrid
         else:
-            docs = hybrid_retrieve(self.vector_store, self.bm25_retriever, q, top_k=top_k, alpha=alpha)
+            docs = hybrid_retrieve(self.vector_store, self.bm25_retriever, q, top_k=retrieve_k, alpha=alpha)
 
         if self.config["use_reranking"]:
             docs = rerank(q, docs, top_k=top_k, model_name=self.config["reranker_model"])

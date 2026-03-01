@@ -59,6 +59,8 @@ def chunk_layout_aware(text: str, source: str, chunk_size: int = 1024, chunk_ove
 
             # If block is a table and fits in chunk_size, keep it intact
             if block.strip().startswith("|") and _token_length(block) <= chunk_size:
+                if len(block.strip()) < 50:
+                    continue
                 documents.append(Document(
                     page_content=block.strip(),
                     metadata={"source": source, "strategy": "layout_aware", "is_table": True},
@@ -67,6 +69,8 @@ def chunk_layout_aware(text: str, source: str, chunk_size: int = 1024, chunk_ove
                 # Split normally
                 chunks = splitter.split_text(block)
                 for c in chunks:
+                    if len(c.strip()) < 50:
+                        continue
                     documents.append(Document(
                         page_content=c,
                         metadata={"source": source, "strategy": "layout_aware", "is_table": False},
