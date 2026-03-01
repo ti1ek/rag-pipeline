@@ -137,8 +137,47 @@ rag/
     ├── task1a_naive_rag.ipynb      # Naive RAG: parse → chunk → index → query
     ├── task1b_advanced_rag.ipynb   # Advanced RAG: hybrid search, reranking, query rewriting
     ├── task2a_experiments.ipynb    # Hyperparameter experiments with RAGAS scores
-    └── task2b_ragas_analysis.ipynb # Analysis: metric tables, per-experiment conclusions
+    ├── task2b_ragas_analysis.ipynb # Analysis: metric tables, per-experiment conclusions
+    └── bonus_graphrag.ipynb        # Bonus: GraphRAG with Neo4j knowledge graph
 ```
+
+---
+
+## Bonus: GraphRAG with Neo4j
+
+A knowledge graph-based RAG pipeline that extracts entities and relationships from the same documents using LLM, stores them in Neo4j, and answers questions by traversing the graph.
+
+```
+Parsed Markdown → LLM Entity Extraction → Knowledge Graph (Neo4j) → Cypher Queries → LLM Answer
+```
+
+### How it works
+
+1. **Entity extraction** — GPT-4o-mini extracts entities (organizations, people, projects, locations, metrics, standards) and relationships (subsidiaries, locations, manages, implements) from parsed text chunks
+2. **Graph storage** — Neo4j stores the knowledge graph (388 nodes, 551 relationships)
+3. **Entity resolution** — merges duplicate entities (e.g., "KTZh" and "NK KTZh")
+4. **Retrieval** — `VectorCypherRetriever` finds relevant nodes via vector search, then traverses 1-2 hops in the graph for additional context
+5. **Generation** — GPT-4o-mini generates answers based on graph context
+
+### GraphRAG vs Vector RAG
+
+| Question Type | GraphRAG | Vector RAG |
+|--------------|----------|------------|
+| Entity relationships (subsidiaries, managers) | **Better** | Medium |
+| Multi-hop questions ("who manages X which is part of Y") | **Better** | Weak |
+| Structural queries (list all projects of company X) | **Better** | Medium |
+| Exact numbers from tables | Good | **Better** |
+| Simple document Q&A | Comparable | **Better** (faster) |
+
+### Stack
+
+| Component | Choice |
+|-----------|--------|
+| Entity extraction | **GPT-4o-mini** via `neo4j-graphrag` |
+| Graph database | **Neo4j** |
+| Vector index | **Neo4j Vector Index** (text-embedding-3-small) |
+| Retriever | **VectorCypherRetriever** |
+| Generation | **GPT-4o-mini** |
 
 ---
 
@@ -151,6 +190,11 @@ cp .env.example .env
 # OPENAI_API_KEY=...
 # LLAMA_CLOUD_API_KEY=...
 # HF_TOKEN=...
+
+# For bonus GraphRAG (optional):
+# NEO4J_URI=neo4j://localhost:7687
+# NEO4J_USER=neo4j
+# NEO4J_PASSWORD=...
 ```
 
-Run notebooks in order: `naive_rag` → `advanced_rag` → `experiments` → `ragas_analysis`
+Run notebooks in order: `naive_rag` → `advanced_rag` → `experiments` → `ragas_analysis` → (optional) `bonus_graphrag`

@@ -15,3 +15,7 @@ pandas
 tqdm
 matplotlib
 ipywidgets
+neo4j
+neo4j-graphrag
+openai
+scikit-learn
